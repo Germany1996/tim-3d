@@ -11,13 +11,11 @@
 <body>
 <audio id="bgMusic" autoplay loop>
   <source src="https://zingmp3.vn/bai-hat/Tung-Ngay-Yeu-Em-buitruonglinh/Z7FIIW79.html" type="audio/mpeg">
-  Trình duyệt không hỗ trợ phát nhạc.
 </audio>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/loaders/FontLoader.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/geometries/TextGeometry.js"></script>
-
 <script>
 let scene = new THREE.Scene();
 let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
@@ -64,17 +62,13 @@ fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.
         scene.add(mesh);
     }
 });
-
 camera.position.z = 30;
-
 function animate() {
     requestAnimationFrame(animate);
     heart.rotation.y += 0.005;
     renderer.render(scene, camera);
 }
 animate();
-
-
 document.body.addEventListener('click', () => {
   const audio = document.getElementById("bgMusic");
   if (audio.paused) {
