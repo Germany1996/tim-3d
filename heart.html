@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chúc mừng 20/10</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: black; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+<audio id="bgMusic" autoplay loop>
+  <source src="https://zingmp3.vn/bai-hat/Tung-Ngay-Yeu-Em-buitruonglinh/Z7FIIW79.html" type="audio/mpeg">
+  Trình duyệt không hỗ trợ phát nhạc.
+</audio>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/loaders/FontLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/geometries/TextGeometry.js"></script>
+
+<script>
+let scene = new THREE.Scene();
+let camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+let renderer = new THREE.WebGLRenderer({antialias: true});
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+let light = new THREE.PointLight(0xffffff, 2);
+light.position.set(0, 50, 50);
+scene.add(light);
+let heartParticles = new THREE.Geometry();
+let particleCount = 5000;
+for (let i = 0; i < particleCount; i++) {
+    let t = Math.PI * (Math.random() * 2 - 1);
+    let r = 1 - Math.sin(t);
+    let x = 16 * Math.pow(Math.sin(t), 3);
+    let y = 13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t);
+    x *= 0.5 + Math.random() * 0.1;
+    y *= 0.5 + Math.random() * 0.1;
+    let z = (Math.random() - 0.5) * 2;
+    heartParticles.vertices.push(new THREE.Vector3(x, y, z));
+}
+let heartMaterial = new THREE.PointsMaterial({color: 0xff3366, size: 0.2});
+let heart = new THREE.Points(heartParticles, heartMaterial);
+heart.position.y = 5;
+scene.add(heart);
+let fontLoader = new THREE.FontLoader();
+fontLoader.load('https://threejs.org/examples/fonts/helvetiker_regular.typeface.json', function(font) {
+    let spiralText = "Chúc mừng ngày 20 tháng 10 - Anh yêu Embe 💖 ";
+    for (let i = 0; i < spiralText.length * 2; i++) {
+        let angle = i * 0.3;
+        let radius = 2 + i * 0.01;
+        let x = Math.cos(angle) * radius;
+        let z = Math.sin(angle) * radius;
+        let y = -i * 0.03;
+        let textGeo = new THREE.TextGeometry(spiralText[i % spiralText.length], {
+            font: font,
+            size: 0.5,
+            height: 0.05
+        });
+        let textMat = new THREE.MeshBasicMaterial({color: 0xffffff});
+        let mesh = new THREE.Mesh(textGeo, textMat);
+        mesh.position.set(x, y, z);
+        mesh.lookAt(0, y, 0); 
+        scene.add(mesh);
+    }
+});
+
+camera.position.z = 30;
+
+function animate() {
+    requestAnimationFrame(animate);
+    heart.rotation.y += 0.005;
+    renderer.render(scene, camera);
+}
+animate();
+
+
+document.body.addEventListener('click', () => {
+  const audio = document.getElementById("bgMusic");
+  if (audio.paused) {
+    audio.play();
+  }
+});
+</script>
+</body>
+</html>
